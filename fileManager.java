@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 
 /**
  * Manages the files through the directory specified.
@@ -100,6 +101,32 @@ public class fileManager {
 
 		}
 		return false;                                                   // element does not exits
+	}
+	
+	/**
+	 * @param
+	 * @return ArrayList<String> of every line in a file.
+	 * @throws IOException
+	 */
+	public ArrayList<String> readFile(int orderNumber) throws IOException {
+		ArrayList<String> lines = new ArrayList<String>();
+		
+		if (orderExists(orderNumber)) {
+			String numToString = Integer.toString(orderNumber);
+			File file = new File(directoryPath, numToString + ".txt");
+
+			FileReader reader = new FileReader(file);
+			BufferedReader bufferedReader = new BufferedReader(reader);
+
+			String line;
+			while ((line = bufferedReader.readLine()) != null) {
+				lines.add(line);
+			}
+			reader.close();
+			bufferedReader.close();
+
+		}
+		return lines;
 	}
 	
 	/**
