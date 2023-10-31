@@ -80,18 +80,25 @@ public class fileManager {
 	 * @throws IOException
 	 */
 	public void addOrder(int orderNumber) throws IOException {
-		String numToString = Integer.toString(orderNumber);        // makes the order number a string so it can be added to the file name
-		File file = new File(directoryPath, numToString + ".txt"); // instantiates new file
-		File directory = file.getParentFile();                     // instantiates new directory
+		String numToString = Integer.toString(orderNumber);
+		File orderFile = new File(directoryPath, numToString + ".txt");
+		File orders  = new File(directoryPath, "OrderNumbers.txt");
+		File directory = orderFile.getParentFile();
 		
-		if (!directory.exists()) {                                 // if the directory does not exist,
-			directory.mkdirs();                                    // make the directory per the supposed parent file (first parameter) of the newly created file.
+		if (!directory.exists()) {
+			directory.mkdirs();
 			System.out.println("Directory did not exist. Directory created at: " + directoryPath);
 		}
-
+		
 		if (!orderExists(orderNumber)) {
-			file.createNewFile();                                  // this line actually creates the file itself
-			System.out.println("File saved successfully to: " + file.getAbsolutePath()); // proof that the file was created and where it was created
+			orderFile.createNewFile();
+			System.out.println("File saved successfully to: " + orderFile.getAbsolutePath());
+			FileWriter ordersWriter = new FileWriter(orders, true);
+			if(!orders.exists()) {
+				orders.createNewFile();
+			}
+			ordersWriter.write(numToString + "\r\n");
+			ordersWriter.close();
 		} else {
 			System.out.println("File already exists.");
 		}
