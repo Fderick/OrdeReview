@@ -223,14 +223,14 @@ public class fileManager {
 
 
 //EDITING FILES--------------------------------------------------------------------------------------------------------------------------------------------------
-	
-	
+
+
 	/**
 	 * If the file exists, then clear file and add user element to file.
 	 * 
 	 * @param integer order number, string user element
 	 */
-	public void rewriteFile(int orderNumber, String userElement) {
+	public void rewriteFile(int orderNumber, ArrayList<String> userElements) {
 		if (orderExists(orderNumber)) {
 			String numToString = Integer.toString(orderNumber);
 			File file = new File(directoryPath, numToString + ".txt");
@@ -238,8 +238,9 @@ public class fileManager {
 			try {
 				// possibly print every line in the file and allow user to edit line
 				FileWriter writer = new FileWriter(file, false);
-				writer.write(userElement);
-				writer.write("\r\n");
+				for (String detail: userElements) {                    // writes the order details inside the file and writes a line for iteration purposes
+					writer.write(detail + "\r\n");
+				}
 				writer.close();
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -252,7 +253,7 @@ public class fileManager {
 	 * 
 	 * @param integer order number, string user element
 	 */
-	public void addToFile(int orderNumber, String userElement) {
+	public void addToFile(int orderNumber, ArrayList<String> userElements) {
 		if (orderExists(orderNumber)) {
 			String numToString = Integer.toString(orderNumber);
 			File file = new File(directoryPath, numToString + ".txt");
@@ -260,8 +261,9 @@ public class fileManager {
 			try {
 				// possibly print every line in the file and allow user to edit line
 				FileWriter writer = new FileWriter(file, true);
-				writer.write(userElement);
-				writer.write("\r\n");
+				for (String detail: userElements) {
+					writer.write(detail + "\r\n");
+				}
 				writer.close();
 			} catch (IOException e) {
 				e.printStackTrace();
