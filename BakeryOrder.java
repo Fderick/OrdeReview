@@ -1,5 +1,6 @@
 package orders;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import FileManagement.*;
 
@@ -97,15 +98,15 @@ public class BakeryOrder implements Orderable {
 		
 	}
 
-	public void createOrderFile() {
-		if (orderNumber!=0 && !fileMan.numberExists(orderNumber)) {
+	public void createOrderFile() throws IOException {
+		if (orderNumber!=0 && !fileMan.orderExists(orderNumber)) {
 			fileMan.addOrder(orderNumber, "This is the Order String/parameters of order");
 		} else {
 			throw new orderNumberException("Missing Order Number or Order Already exists");
 		}	
 	}
-	public void modifyOrder() {
-		if (orderNumber!=0 && fileMan.numberExists(orderNumber)) {
+	public void modifyOrder() throws IOException {
+		if (orderNumber!=0 && fileMan.orderExists(orderNumber)) {
 			fileMan.addOrder(orderNumber, "This is the Order String/parameters of order");
 		} else {
 			throw new orderNumberException("Missing Order Number or Order does not exist");

@@ -5,7 +5,8 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.ArrayList;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 /**
  * Manages the files through the directory specified.
@@ -14,69 +15,94 @@ import java.util.ArrayList;
  */
 public class fileManager {
 
-	String directoryPath = "C:\\Classes 3\\software engineering\\orders"; // directory path of which the files will be saved to
-	
-//CREATING FILES--------------------------------------------------------------------------------------------------------------------------------------------------
-	
-	
+	String directoryPath;
+
 	/**
-	 * Creates a text file with the name of the order number and writes the order details inside the text file,
-	 * stored at the class's directory path.
+	 * Constructor for File Manager, sets directory to read/save files as currentWorkingDirectory/Orders
+	 */
+	public fileManager() {
+		String directory = new File(System.getProperty("user.dir"), "Orders").getAbsolutePath();
+		directoryPath = directory;
+	}
+	/**
+	 * Constructor for File Manager, sets directory to iDirectory specify.
+	 * @param iDirectory - Directory to save/read files.
+	 */
+	public fileManager(String iDirectory) {
+		String directory = new File(iDirectory).getAbsolutePath();
+		directoryPath = directory;
+	}
+
+	// String directoryPath = "C:\\Classes 3\\software engineering\\orders"; //
+	// directory path of which the files will be saved to
+
+//CREATING FILES--------------------------------------------------------------------------------------------------------------------------------------------------
+
+	/**
+	 * Creates a text file with the name of the order number and writes the order
+	 * details inside the text file, stored at the class's directory path.
 	 * 
 	 * @param
 	 * @throws IOException
 	 */
 	public void addOrder(int orderNumber, String orderDetails) throws IOException {
-		String numToString = Integer.toString(orderNumber);        // makes the order number a string so it can be added to the file name
+		String numToString = Integer.toString(orderNumber); // makes the order number a string so it can be added to the
+															// file name
 		File file = new File(directoryPath, numToString + ".txt"); // instantiates new file
-		File directory = file.getParentFile();                     // instantiates new directory
-		
-		if (!directory.exists()) {                                 // if the directory does not exist,
-			directory.mkdirs();                                    // make the directory per the supposed parent file (first parameter) of the newly created file.
+		File directory = file.getParentFile(); // instantiates new directory
+
+		if (!directory.exists()) { // if the directory does not exist,
+			directory.mkdirs(); // make the directory per the supposed parent file (first parameter) of the
+								// newly created file.
 			System.out.println("Directory did not exist. Directory created at: " + directoryPath);
 		}
 
 		if (!orderExists(orderNumber)) {
-			file.createNewFile();                                  // this line actually creates the file itself
-			FileWriter writer = new FileWriter(file, true);        // true parameter means add to the end of file, false means add to the beginning + replace
-			writer.write(orderDetails);                            // writes the order details inside the file
-			writer.write("\r\n");                                  // writes a line for iteration purposes
+			file.createNewFile(); // this line actually creates the file itself
+			FileWriter writer = new FileWriter(file, true); // true parameter means add to the end of file, false means
+															// add to the beginning + replace
+			writer.write(orderDetails); // writes the order details inside the file
+			writer.write("\r\n"); // writes a line for iteration purposes
 			writer.close();
-			System.out.println("File saved successfully to: " + file.getAbsolutePath()); // proof that the file was created and where it was created
+			System.out.println("File saved successfully to: " + file.getAbsolutePath()); // proof that the file was
+																							// created and where it was
+																							// created
 		} else {
 			System.out.println("File already exists.");
 		}
 	}
-	
+
 	/**
-	 * Creates a text file with the name of the order number, stored at the class's directory path.
+	 * Creates a text file with the name of the order number, stored at the class's
+	 * directory path.
 	 * 
 	 * @param
 	 * @throws IOException
 	 */
 	public void addOrder(int orderNumber) throws IOException {
-		String numToString = Integer.toString(orderNumber);        // makes the order number a string so it can be added to the file name
+		String numToString = Integer.toString(orderNumber); // makes the order number a string so it can be added to the
+															// file name
 		File file = new File(directoryPath, numToString + ".txt"); // instantiates new file
-		File directory = file.getParentFile();                     // instantiates new directory
-		
-		if (!directory.exists()) {                                 // if the directory does not exist,
-			directory.mkdirs();                                    // make the directory per the supposed parent file (first parameter) of the newly created file.
+		File directory = file.getParentFile(); // instantiates new directory
+
+		if (!directory.exists()) { // if the directory does not exist,
+			directory.mkdirs(); // make the directory per the supposed parent file (first parameter) of the
+								// newly created file.
 			System.out.println("Directory did not exist. Directory created at: " + directoryPath);
 		}
 
 		if (!orderExists(orderNumber)) {
-			file.createNewFile();                                  // this line actually creates the file itself
-			System.out.println("File saved successfully to: " + file.getAbsolutePath()); // proof that the file was created and where it was created
+			file.createNewFile(); // this line actually creates the file itself
+			System.out.println("File saved successfully to: " + file.getAbsolutePath()); // proof that the file was
+																							// created and where it was
+																							// created
 		} else {
 			System.out.println("File already exists.");
 		}
 	}
-	
-	
 
 //VALIDATING FILES--------------------------------------------------------------------------------------------------------------------------------------------------
-	
-	
+
 	/**
 	 * @param
 	 * @return true if element does exist, false if element does not exist.
@@ -85,50 +111,26 @@ public class fileManager {
 	public boolean elementExists(int orderNumber, String element) throws IOException {
 		if (orderExists(orderNumber)) {
 			String numToString = Integer.toString(orderNumber);
-			File file = new File(directoryPath, numToString + ".txt"); // finds the file based off the directory path and the order number
+			File file = new File(directoryPath, numToString + ".txt"); // finds the file based off the directory path
+																		// and the order number
 
-			FileReader reader = new FileReader(file);                   // opens the file from the order number requested
-			BufferedReader bufferedReader = new BufferedReader(reader); // instantiates a buffered reader that goes through each line in the file
+			FileReader reader = new FileReader(file); // opens the file from the order number requested
+			BufferedReader bufferedReader = new BufferedReader(reader); // instantiates a buffered reader that goes
+																		// through each line in the file
 
 			String line;
-			while ((line = bufferedReader.readLine()) != null) {        // goes through each line in the file
+			while ((line = bufferedReader.readLine()) != null) { // goes through each line in the file
 				if (line.contains(element)) {
-					return true;                                        // element does exist
+					return true; // element does exist
 				}
 			}
 			reader.close();
 			bufferedReader.close();
 
 		}
-		return false;                                                   // element does not exits
+		return false; // element does not exits
 	}
-	
-	/**
-	 * @param
-	 * @return ArrayList<String> of every line in a file.
-	 * @throws IOException
-	 */
-	public ArrayList<String> readFile(int orderNumber) throws IOException {
-		ArrayList<String> lines = new ArrayList<String>();
-		
-		if (orderExists(orderNumber)) {
-			String numToString = Integer.toString(orderNumber);
-			File file = new File(directoryPath, numToString + ".txt");
 
-			FileReader reader = new FileReader(file);
-			BufferedReader bufferedReader = new BufferedReader(reader);
-
-			String line;
-			while ((line = bufferedReader.readLine()) != null) {
-				lines.add(line);
-			}
-			reader.close();
-			bufferedReader.close();
-
-		}
-		return lines;
-	}
-	
 	/**
 	 * @param
 	 * @return true if the order exists, false if order does not exist.
@@ -143,12 +145,9 @@ public class fileManager {
 			return false;
 		}
 	}
-	
-	
 
 //EDITING FILES--------------------------------------------------------------------------------------------------------------------------------------------------
-	
-	
+
 	/**
 	 * If the file exists, then clear file and add user element to file.
 	 * 
@@ -170,7 +169,7 @@ public class fileManager {
 			}
 		}
 	}
-	
+
 	/**
 	 * If the file exists, then add user element to the end of the file.
 	 * 
@@ -195,6 +194,7 @@ public class fileManager {
 
 	/**
 	 * If the file exists, clear the file..
+	 * 
 	 * @param integer order number
 	 */
 	public void clearFile(int orderNumber) throws IOException {
