@@ -8,15 +8,15 @@ import FileManagement.*;
 public class BakeryOrder implements Orderable {
 
 	//Customer Info
-	private int orderNumber;
+	private Integer orderNumber;
 	private String firstName;
 	private String lastName;
 	//Cake Info
-	private int cakeSize;
+	private Integer cakeSize;
 	private String cakeFlavor;
 	private String cakeFrosting;
-	private int cakeDiam;
-	private int cakeLayer;
+	private Integer cakeDiam;
+	private Integer cakeLayer;
 	ArrayList<String> toppings;
 	private String specialRequest;
 	private fileManager fileMan = new fileManager();
@@ -100,24 +100,42 @@ public class BakeryOrder implements Orderable {
 
 	public void createOrderFile() throws IOException {
 		if (orderNumber!=0 && !fileMan.orderExists(orderNumber)) {
-			fileMan.addOrder(orderNumber, "This is the Order String/parameters of order");
+			fileMan.addOrder(orderNumber, this.writeDetails());
 		} else {
 			throw new orderNumberException("Missing Order Number or Order Already exists");
 		}	
 	}
 	public void modifyOrder() throws IOException {
 		if (orderNumber!=0 && fileMan.orderExists(orderNumber)) {
-			fileMan.addOrder(orderNumber, "This is the Order String/parameters of order");
+			fileMan.rewriteFile(orderNumber,this.writeDetails());
 		} else {
 			throw new orderNumberException("Missing Order Number or Order does not exist");
 		}	
+	}
+	
+	public ArrayList<String> writeDetails(){
+		ArrayList<String> orderDetails = new ArrayList<String>();
+		orderDetails.add(firstName+ " " + lastName);
+		orderDetails.add(cakeSize.toString());
+		orderDetails.add(cakeFlavor);
+		orderDetails.add(cakeFrosting);
+		orderDetails.add(cakeDiam.toString());
+		orderDetails.add(cakeLayer.toString());
+		for(String topping: toppings)
+			orderDetails.add(topping);
+		
+		orderDetails.add(specialRequest);
+		return orderDetails;
+		
+		
 	}
 	
 	/**
 	 * Transforms the order into a string to be used by the fileManager.
 	 */
 	public String toString() {
-		return null;
+		String newLine = " \r\n ";
+		return firstName + " " + lastName + newLine + cakeSize + newLine + cakeFlavor + newLine + cakeFrosting + newLine + cakeDiam + newLine + cakeLayer + newLine + toppings + newLine + specialRequest ;
 	}
 
 
