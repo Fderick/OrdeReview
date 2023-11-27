@@ -102,7 +102,7 @@ public class EmailSender {
 			message.setRecipient(Message.RecipientType.TO, new InternetAddress(toEmail));
 			message.setSubject("Your order has been reviewed for Ms. Cakes Bakery");
 			message.setText(
-					"Your order for Ms Cakes Bakery has been reviewed. To view or edit your order use your order number, "
+					"Your order for Ms Cakes Bakery has been reviewed. Further action is necessary. To view or edit your order use your order number, "
 							+ orderNumber + ", in our platform.\n");
 
 			// Send message
