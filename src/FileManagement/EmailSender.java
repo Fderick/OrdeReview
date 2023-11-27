@@ -14,6 +14,7 @@ public class EmailSender {
 	private String host = "smtp.gmail.com";
 	private Properties properties;
 	final String SSL_FACTORY = "javax.net.ssl.SSLSocketFactory";
+	String password = "ssno jwlb vicr vtcx"; // ------------------------
 
 	public EmailSender(String to, String from, String orderNumber) {
 		toEmail = to;
@@ -61,7 +62,6 @@ public class EmailSender {
 
 	public void underReviewEmail() {
 		// Get System Properties
-		String password = "ssno jwlb vicr vtcx"; // ------------------------
 		// get default Session object.
 		Session session = Session.getDefaultInstance(properties, new Authenticator() {
 			protected PasswordAuthentication getPasswordAuthentication() {
@@ -89,7 +89,6 @@ public class EmailSender {
 
 	public void reviewedOrderEmail() {
 		// Get System Properties
-		String password = "ssno jwlb vicr vtcx"; // ------------------------
 		// get default Session object.
 		Session session = Session.getDefaultInstance(properties, new Authenticator() {
 			protected PasswordAuthentication getPasswordAuthentication() {
@@ -114,12 +113,38 @@ public class EmailSender {
 		}
 
 	}
+	
+	public void reviewedOrderEmail(String comment) {
+		// Get System Properties
+		// get default Session object.
+		Session session = Session.getDefaultInstance(properties, new Authenticator() {
+			protected PasswordAuthentication getPasswordAuthentication() {
+				return new PasswordAuthentication(fromEmail, password);
+			}
+		});
+		try {
+			MimeMessage message = new MimeMessage(session);
+			message.setFrom(new InternetAddress(fromEmail));
+			message.setRecipient(Message.RecipientType.TO, new InternetAddress(toEmail));
+			message.setSubject("Your order has been reviewed for Ms. Cakes Bakery");
+			message.setText(
+					"Your order for Ms Cakes Bakery has been reviewed. Further action is necessary. To view or edit your order use your order number, "
+							+ orderNumber + ", in our platform.\n" + "The following comment has been provided: \n" + comment);
+
+			// Send message
+			Transport.send(message);
+			System.out.println("Sent message successfully....");
+
+		} catch (MessagingException e) {
+			e.printStackTrace();
+		}
+
+	}
 
 	public void cancelledOrderEmail() {
 
 		String reason = "Not taking orders at this time.\n";
 		// Get System Properties
-		String password = "ssno jwlb vicr vtcx"; // ------------------------
 		// get default Session object.
 		Session session = Session.getDefaultInstance(properties, new Authenticator() {
 			protected PasswordAuthentication getPasswordAuthentication() {
@@ -146,7 +171,6 @@ public class EmailSender {
 
 	public void cancelledOrderEmail(String reason) {
 		// Get System Properties
-		String password = "ssno jwlb vicr vtcx"; // ------------------------
 		// get default Session object.
 		Session session = Session.getDefaultInstance(properties, new Authenticator() {
 			protected PasswordAuthentication getPasswordAuthentication() {
