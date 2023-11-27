@@ -21,27 +21,6 @@ public class EmailSender {
 		this.orderNumber = orderNumber;
 
 		properties = System.getProperties();
-		/*
-		 * properties.setProperty("mail.smtp.host", host);
-		 * properties.setProperty("mail.smtp.socketFactory.class", SSL_FACTORY);
-		 * properties.setProperty("mail.smtp.socketFactory.fallback", "false");
-		 * properties.setProperty("mail.smtp.port", "465");
-		 * properties.setProperty("mail.smtp.socketFactory.port", "465");
-		 * properties.put("mail.smtp.auth", "true"); 
-		 * properties.put("mail.debug",
-		 * "true"); 
-		 * properties.put("mail.store.protocol", "pop3");
-		 * properties.put("mail.transport.protocol", "smtp");
-		 */
-
-		/*properties.setProperty("mail.transport.protocol", "smtp");
-		properties.put("mail.smtp.host", host);
-		properties.put("mail.smtp.socketFactory.port", "465");
-		properties.put("mail.smtp/socketFactory.class", "javax.net.ssl.SSLSocketFactory");
-		properties.put("mail.smtp.auth", "true");
-		properties.put("mail.smpt.port", "465");
-		properties.put("mail.smtp.starttls.enable", "true");
-		properties.put("mail.smtp.ssl.trust", "smtp.gmail.com"); */
 		
 		properties.setProperty("mail.transport.protocol", "smtp");
 		properties.put("mail.smtp.auth", true);
@@ -55,7 +34,7 @@ public class EmailSender {
 
 	public void confirmOrderEmail() {
 		// Get System Properties
-		String password = "cakemaker2023"; // ------------------------
+		String password = "ssno jwlb vicr vtcx"; // ------------------------
 		// get default Session object.
 		Session session = Session.getDefaultInstance(properties, new Authenticator() {
 			protected PasswordAuthentication getPasswordAuthentication() {
@@ -82,10 +61,13 @@ public class EmailSender {
 
 	public void underReviewEmail() {
 		// Get System Properties
-
+		String password = "ssno jwlb vicr vtcx"; // ------------------------
 		// get default Session object.
-		Session session = Session.getDefaultInstance(properties);
-
+		Session session = Session.getDefaultInstance(properties, new Authenticator() {
+			protected PasswordAuthentication getPasswordAuthentication() {
+				return new PasswordAuthentication(fromEmail, password);
+			}
+		});
 		try {
 			MimeMessage message = new MimeMessage(session);
 			message.setFrom(new InternetAddress(fromEmail));
@@ -106,12 +88,14 @@ public class EmailSender {
 	}
 
 	public void reviewedOrderEmail() {
-
 		// Get System Properties
-
+		String password = "ssno jwlb vicr vtcx"; // ------------------------
 		// get default Session object.
-		Session session = Session.getDefaultInstance(properties);
-
+		Session session = Session.getDefaultInstance(properties, new Authenticator() {
+			protected PasswordAuthentication getPasswordAuthentication() {
+				return new PasswordAuthentication(fromEmail, password);
+			}
+		});
 		try {
 			MimeMessage message = new MimeMessage(session);
 			message.setFrom(new InternetAddress(fromEmail));
@@ -135,12 +119,13 @@ public class EmailSender {
 
 		String reason = "Not taking orders at this time.\n";
 		// Get System Properties
-		Properties properties = System.getProperties();
-		properties.setProperty("mail.smpt.host", host);
-
+		String password = "ssno jwlb vicr vtcx"; // ------------------------
 		// get default Session object.
-		Session session = Session.getDefaultInstance(properties);
-
+		Session session = Session.getDefaultInstance(properties, new Authenticator() {
+			protected PasswordAuthentication getPasswordAuthentication() {
+				return new PasswordAuthentication(fromEmail, password);
+			}
+		});
 		try {
 			MimeMessage message = new MimeMessage(session);
 			message.setFrom(new InternetAddress(fromEmail));
@@ -160,14 +145,14 @@ public class EmailSender {
 	}
 
 	public void cancelledOrderEmail(String reason) {
-
 		// Get System Properties
-		Properties properties = System.getProperties();
-		properties.setProperty("mail.smpt.host", host);
-
+		String password = "ssno jwlb vicr vtcx"; // ------------------------
 		// get default Session object.
-		Session session = Session.getDefaultInstance(properties);
-
+		Session session = Session.getDefaultInstance(properties, new Authenticator() {
+			protected PasswordAuthentication getPasswordAuthentication() {
+				return new PasswordAuthentication(fromEmail, password);
+			}
+		});
 		try {
 			MimeMessage message = new MimeMessage(session);
 			message.setFrom(new InternetAddress(fromEmail));
